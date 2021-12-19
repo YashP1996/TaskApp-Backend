@@ -5,6 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.exception.TaskCreateException;
+import com.example.demo.exception.TaskDeleteException;
+import com.example.demo.exception.TaskReadException;
+import com.example.demo.exception.TaskUpdateException;
 import com.example.demo.model.Task;
 import com.example.demo.repository.ITaskRepository;
 
@@ -15,55 +19,57 @@ public class TaskService implements ITaskService {
 	private ITaskRepository iTaskRepository;
 
 	@Override
-	public Task createTask(Task task) {
-		if (task != null) {
+	public Task createTask(Task task) throws TaskCreateException {
+		if (task == null) {
+			throw new TaskCreateException("Cannot Create Task. Please Try Again.");
+		} else {
 			return this.iTaskRepository.save(task);
-		} else {
-			return null;
 		}
 	}
 
 	@Override
-	public List<Task> readAllTasks() {
+	public List<Task> readAllTasks() throws TaskReadException {
 		List<Task> taskList = this.iTaskRepository.findAll();
-		if (!taskList.isEmpty()) {
+		if (taskList.isEmpty()) {
+			throw new TaskReadException("Tasks Not Found.");
+		} else {
 			return taskList;
-		} else {
-			return null;
 		}
 	}
 
 	@Override
-	public Task readTaskById(long taskId) {
+	public Task readTaskById(long taskId) throws TaskReadException {
 		Task task = this.iTaskRepository.findById(taskId).get();
-		if (task != null) {
-			return task;
+		if (task == null) {
+			throw new TaskReadException("Task Not Found.");
 		} else {
-			return null;
+			return task;
 		}
 	}
 
 	@Override
-	public Task updateTask(long taskId, Task task) {
+	public Task updateTask(long taskId, Task task) throws TaskUpdateException {
 		Task taskDb = this.iTaskRepository.findById(taskId).get();
-		if (taskDb != null) {
+		if (taskDb == null) {
+			throw new TaskUpdateException("Cannot Update Task. Please Try Again.");
+		} else {
 			taskDb.setTaskTitle(task.getTaskTitle());
 			taskDb.setTaskDescription(task.getTaskDescription());
 			taskDb.setTaskStatus(task.getTaskStatus());
+			taskDb.setTaskUpdateDate(task.getTaskUpdateDate());
 			this.iTaskRepository.save(taskDb);
 			return taskDb;
-		} else {
-			return null;
 		}
 	}
 
 	@Override
-	public String deleteTask(long taskId) {
-		if (taskId != 0) {
-			this.iTaskRepository.deleteById(taskId);
-			return "Task Deleted.";
+	public Task deleteTask(long taskId) throws TaskDeleteException {
+		Task task = iTaskRepository.findById(taskId).get();
+		if (task == null) {
+			throw new TaskDeleteException("Cannot Delete Task. Please Try Again.");
 		} else {
-			return "Task Not Deleted.";
+			this.iTaskRepository.deleteById(taskId);
+			return task;
 		}
 	}
 }

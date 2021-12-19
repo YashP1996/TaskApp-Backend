@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,16 +26,25 @@ public class Task {
 	@Column(name = "Status")
 	private String taskStatus;
 
+	@Column(name = "CreateDate")
+	private Date taskCreateDate;
+
+	@Column(name = "UpdateDate")
+	private Date taskUpdateDate;
+
 	public Task() {
 		super();
 	}
 
-	public Task(long taskId, String taskTitle, String taskDescription, String taskStatus) {
+	public Task(long taskId, String taskTitle, String taskDescription, String taskStatus, Date taskCreateDate,
+			Date taskUpdateDate) {
 		super();
 		this.taskId = taskId;
 		this.taskTitle = taskTitle;
 		this.taskDescription = taskDescription;
 		this.taskStatus = taskStatus;
+		this.taskCreateDate = taskCreateDate;
+		this.taskUpdateDate = taskUpdateDate;
 	}
 
 	public long getTaskId() {
@@ -68,9 +79,26 @@ public class Task {
 		this.taskStatus = taskStatus;
 	}
 
+	public Date getTaskCreateDate() {
+		return taskCreateDate;
+	}
+
+	public void setTaskCreateDate(Date taskCreateDate) {
+		this.taskCreateDate = taskCreateDate;
+	}
+
+	public Date getTaskUpdateDate() {
+		return taskUpdateDate;
+	}
+
+	public void setTaskUpdateDate(Date taskUpdateDate) {
+		this.taskUpdateDate = taskUpdateDate;
+	}
+
 	@Override
 	public String toString() {
 		return "Task [taskId=" + taskId + ", taskTitle=" + taskTitle + ", taskDescription=" + taskDescription
-				+ ", taskStatus=" + taskStatus + "]";
+				+ ", taskStatus=" + taskStatus + ", taskCreateDate=" + taskCreateDate + ", taskUpdateDate="
+				+ taskUpdateDate + "]";
 	}
 }
