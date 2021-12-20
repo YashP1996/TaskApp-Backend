@@ -29,4 +29,9 @@ public class GlobalExceptionHandler {
 	public ErrorMessage taskDeleteException(Exception e) {
 		return new ErrorMessage(HttpStatus.BAD_REQUEST, e.getMessage());
 	}
+
+	@ExceptionHandler(ProjectReadException.class)
+	public ErrorMessage projectReadException(Exception e) {
+		return new ErrorMessage(HttpStatus.BAD_REQUEST, e.getMessage());
+	}
 }

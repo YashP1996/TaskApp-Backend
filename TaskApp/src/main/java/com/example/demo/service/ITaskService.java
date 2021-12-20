@@ -13,7 +13,7 @@ import com.example.demo.model.Task;
 @Service
 public interface ITaskService {
 
-	public Task createTask(Task task) throws TaskCreateException;
+	public Task createTask(long projectId, Task task) throws TaskCreateException;
 
 	public List<Task> readAllTasks() throws TaskReadException;
 

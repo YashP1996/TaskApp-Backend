@@ -32,12 +32,15 @@ public class Task {
 	@Column(name = "UpdateDate")
 	private LocalDateTime taskUpdateDate;
 
+	@Column(name = "ProjectId")
+	private long projectId;
+
 	public Task() {
 		super();
 	}
 
 	public Task(long taskId, String taskTitle, String taskDescription, String taskStatus, LocalDateTime taskCreateDate,
-			LocalDateTime taskUpdateDate) {
+			LocalDateTime taskUpdateDate, long projectId) {
 		super();
 		this.taskId = taskId;
 		this.taskTitle = taskTitle;
@@ -45,6 +48,7 @@ public class Task {
 		this.taskStatus = taskStatus;
 		this.taskCreateDate = taskCreateDate;
 		this.taskUpdateDate = taskUpdateDate;
+		this.projectId = projectId;
 	}
 
 	public long getTaskId() {
@@ -95,10 +99,18 @@ public class Task {
 		this.taskUpdateDate = taskUpdateDate;
 	}
 
+	public long getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(long projectId) {
+		this.projectId = projectId;
+	}
+
 	@Override
 	public String toString() {
 		return "Task [taskId=" + taskId + ", taskTitle=" + taskTitle + ", taskDescription=" + taskDescription
 				+ ", taskStatus=" + taskStatus + ", taskCreateDate=" + taskCreateDate + ", taskUpdateDate="
-				+ taskUpdateDate + "]";
+				+ taskUpdateDate + ", projectId=" + projectId + "]";
 	}
 }

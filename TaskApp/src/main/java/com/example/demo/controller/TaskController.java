@@ -30,13 +30,14 @@ public class TaskController {
 	@Autowired
 	private TaskService taskService;
 
-	@PostMapping("task")
-	public ResponseEntity<Task> addTask(@RequestBody Task task) throws TaskCreateException {
+	@PostMapping("task/{projectId}")
+	public ResponseEntity<Task> addTask(@PathVariable long projectId, @RequestBody Task task)
+			throws TaskCreateException {
 		if (task.getTaskTitle() == null || task.getTaskDescription() == null || task.getTaskStatus() == null
 				|| task.getTaskCreateDate() == null || task.getTaskUpdateDate() == null) {
 			throw new TaskCreateException("Cannot Create Task. Please Try Again.");
 		} else {
-			return new ResponseEntity<Task>(this.taskService.createTask(task), HttpStatus.OK);
+			return new ResponseEntity<Task>(this.taskService.createTask(projectId, task), HttpStatus.OK);
 		}
 	}
 

@@ -19,11 +19,13 @@ public class TaskService implements ITaskService {
 	private ITaskRepository iTaskRepository;
 
 	@Override
-	public Task createTask(Task task) throws TaskCreateException {
-		if (task.getTaskTitle() == null || task.getTaskDescription() == null || task.getTaskStatus() == null
-				|| task.getTaskCreateDate() == null || task.getTaskUpdateDate() == null) {
+	public Task createTask(long taskId, Task task) throws TaskCreateException {
+		if (taskId == 0 || task.getTaskTitle() == null || task.getTaskDescription() == null
+				|| task.getTaskStatus() == null || task.getTaskCreateDate() == null
+				|| task.getTaskUpdateDate() == null) {
 			throw new TaskCreateException("Cannot Create Task. Please Try Again.");
 		} else {
+			task.setProjectId(taskId);
 			return this.iTaskRepository.save(task);
 		}
 	}
