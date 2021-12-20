@@ -32,49 +32,50 @@ public class TaskController {
 
 	@PostMapping("task")
 	public ResponseEntity<Task> addTask(@RequestBody Task task) throws TaskCreateException {
-		if (task.getTaskTitle() != null || task.getTaskDescription() != null || task.getTaskStatus() != null) {
-			return new ResponseEntity<Task>(this.taskService.createTask(task), HttpStatus.OK);
+		if (task.getTaskTitle() == null || task.getTaskDescription() == null || task.getTaskStatus() == null
+				|| task.getTaskCreateDate() == null || task.getTaskUpdateDate() == null) {
+			throw new TaskCreateException("Cannot Create Task. Please Try Again.");
 		} else {
-			throw new TaskCreateException("Something Went Wrong. Please Try Again.");
+			return new ResponseEntity<Task>(this.taskService.createTask(task), HttpStatus.OK);
 		}
 	}
 
 	@GetMapping("tasks")
 	public ResponseEntity<List<Task>> getAllTasks() throws TaskReadException {
 		List<Task> taskList = this.taskService.readAllTasks();
-		if (!taskList.isEmpty()) {
-			return new ResponseEntity<List<Task>>(taskList, HttpStatus.OK);
+		if (taskList.isEmpty()) {
+			throw new TaskReadException("Tasks Not Found.");
 		} else {
-			throw new TaskReadException("No Tasks Found.");
+			return new ResponseEntity<List<Task>>(taskList, HttpStatus.OK);
 		}
 	}
 
 	@GetMapping("task/{taskId}")
 	public ResponseEntity<Task> getTaskById(@PathVariable long taskId) throws TaskReadException {
-		if (taskId != 0) {
-			return new ResponseEntity<Task>(this.taskService.readTaskById(taskId), HttpStatus.OK);
-		} else {
+		if (taskId == 0) {
 			throw new TaskReadException("Task Not Found.");
+		} else {
+			return new ResponseEntity<Task>(this.taskService.readTaskById(taskId), HttpStatus.OK);
 		}
 	}
 
 	@PutMapping("task/{taskId}")
 	public ResponseEntity<Task> updateTask(@PathVariable long taskId, @RequestBody Task task)
 			throws TaskUpdateException {
-		if (taskId != 0 || task.getTaskTitle() != null || task.getTaskDescription() != null
-				|| task.getTaskStatus() != null) {
-			return new ResponseEntity<Task>(this.taskService.updateTask(taskId, task), HttpStatus.OK);
+		if (taskId == 0 || task.getTaskTitle() == null || task.getTaskDescription() == null
+				|| task.getTaskStatus() == null || task.getTaskUpdateDate() == null) {
+			throw new TaskUpdateException("Cannot Update Task. Please Try Again.");
 		} else {
-			throw new TaskUpdateException("Something Went Wrong. Please Try Again.");
+			return new ResponseEntity<Task>(this.taskService.updateTask(taskId, task), HttpStatus.OK);
 		}
 	}
 
 	@DeleteMapping("task/{taskId}")
 	public ResponseEntity<Task> deleteTask(@PathVariable long taskId) throws TaskDeleteException {
-		if (taskId != 0) {
-			return new ResponseEntity<Task>(this.taskService.deleteTask(taskId), HttpStatus.OK);
-		} else {
+		if (taskId == 0) {
 			throw new TaskDeleteException("Cannot Delete Task.");
+		} else {
+			return new ResponseEntity<Task>(this.taskService.deleteTask(taskId), HttpStatus.OK);
 		}
 	}
 }

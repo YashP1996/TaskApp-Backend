@@ -22,4 +22,6 @@ public interface ITaskService {
 	public Task updateTask(long taskId, Task task) throws TaskUpdateException;
 
 	public Task deleteTask(long taskId) throws TaskDeleteException;
+
+	public boolean readTaskByTaskId(long taskId);
 }

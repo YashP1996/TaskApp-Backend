@@ -1,6 +1,6 @@
 package com.example.demo.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,17 +27,17 @@ public class Task {
 	private String taskStatus;
 
 	@Column(name = "CreateDate")
-	private Date taskCreateDate;
+	private LocalDateTime taskCreateDate;
 
 	@Column(name = "UpdateDate")
-	private Date taskUpdateDate;
+	private LocalDateTime taskUpdateDate;
 
 	public Task() {
 		super();
 	}
 
-	public Task(long taskId, String taskTitle, String taskDescription, String taskStatus, Date taskCreateDate,
-			Date taskUpdateDate) {
+	public Task(long taskId, String taskTitle, String taskDescription, String taskStatus, LocalDateTime taskCreateDate,
+			LocalDateTime taskUpdateDate) {
 		super();
 		this.taskId = taskId;
 		this.taskTitle = taskTitle;
@@ -79,19 +79,19 @@ public class Task {
 		this.taskStatus = taskStatus;
 	}
 
-	public Date getTaskCreateDate() {
+	public LocalDateTime getTaskCreateDate() {
 		return taskCreateDate;
 	}
 
-	public void setTaskCreateDate(Date taskCreateDate) {
+	public void setTaskCreateDate(LocalDateTime taskCreateDate) {
 		this.taskCreateDate = taskCreateDate;
 	}
 
-	public Date getTaskUpdateDate() {
+	public LocalDateTime getTaskUpdateDate() {
 		return taskUpdateDate;
 	}
 
-	public void setTaskUpdateDate(Date taskUpdateDate) {
+	public void setTaskUpdateDate(LocalDateTime taskUpdateDate) {
 		this.taskUpdateDate = taskUpdateDate;
 	}
 
