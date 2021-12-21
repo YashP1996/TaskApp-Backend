@@ -9,7 +9,9 @@ import com.example.demo.exception.TaskCreateException;
 import com.example.demo.exception.TaskDeleteException;
 import com.example.demo.exception.TaskReadException;
 import com.example.demo.exception.TaskUpdateException;
+import com.example.demo.model.Project;
 import com.example.demo.model.Task;
+import com.example.demo.repository.IProjectRepository;
 import com.example.demo.repository.ITaskRepository;
 
 @Service
@@ -18,14 +20,18 @@ public class TaskService implements ITaskService {
 	@Autowired
 	private ITaskRepository iTaskRepository;
 
+	@Autowired
+	private IProjectRepository iProjectRepository;
+
 	@Override
-	public Task createTask(long taskId, Task task) throws TaskCreateException {
-		if (taskId == 0 || task.getTaskTitle() == null || task.getTaskDescription() == null
-				|| task.getTaskStatus() == null || task.getTaskCreateDate() == null || task.getTaskUpdateDate() == null
-				|| task.getProjectId() == 0) {
+	public Task createTask(long projectId, Task task) throws TaskCreateException {
+		if (projectId == 0 || task.getTaskTitle() == null || task.getTaskDescription() == null
+				|| task.getTaskStatus() == null || task.getTaskCreateDate() == null
+				|| task.getTaskUpdateDate() == null) {
 			throw new TaskCreateException("Cannot Create Task. Please Try Again.");
 		} else {
-			task.setProjectId(taskId);
+			Project project = this.iProjectRepository.findById(projectId).get();
+			task.setProject(project);
 			return this.iTaskRepository.save(task);
 		}
 	}

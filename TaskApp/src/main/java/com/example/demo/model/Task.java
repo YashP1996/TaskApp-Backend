@@ -2,11 +2,15 @@ package com.example.demo.model;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -32,15 +36,17 @@ public class Task {
 	@Column(name = "UpdateDate")
 	private LocalDateTime taskUpdateDate;
 
-	@Column(name = "ProjectId")
-	private long projectId;
+//	@JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "ProjectId")
+	private Project project;
 
 	public Task() {
 		super();
 	}
 
 	public Task(long taskId, String taskTitle, String taskDescription, String taskStatus, LocalDateTime taskCreateDate,
-			LocalDateTime taskUpdateDate, long projectId) {
+			LocalDateTime taskUpdateDate, Project project) {
 		super();
 		this.taskId = taskId;
 		this.taskTitle = taskTitle;
@@ -48,7 +54,7 @@ public class Task {
 		this.taskStatus = taskStatus;
 		this.taskCreateDate = taskCreateDate;
 		this.taskUpdateDate = taskUpdateDate;
-		this.projectId = projectId;
+		this.project = project;
 	}
 
 	public long getTaskId() {
@@ -99,18 +105,18 @@ public class Task {
 		this.taskUpdateDate = taskUpdateDate;
 	}
 
-	public long getProjectId() {
-		return projectId;
+	public Project getProject() {
+		return project;
 	}
 
-	public void setProjectId(long projectId) {
-		this.projectId = projectId;
+	public void setProject(Project project) {
+		this.project = project;
 	}
 
 	@Override
 	public String toString() {
 		return "Task [taskId=" + taskId + ", taskTitle=" + taskTitle + ", taskDescription=" + taskDescription
 				+ ", taskStatus=" + taskStatus + ", taskCreateDate=" + taskCreateDate + ", taskUpdateDate="
-				+ taskUpdateDate + ", projectId=" + projectId + "]";
+				+ taskUpdateDate + ", project=" + project + "]";
 	}
 }
