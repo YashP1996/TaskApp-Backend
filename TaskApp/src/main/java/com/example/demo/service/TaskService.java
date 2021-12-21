@@ -21,8 +21,8 @@ public class TaskService implements ITaskService {
 	@Override
 	public Task createTask(long taskId, Task task) throws TaskCreateException {
 		if (taskId == 0 || task.getTaskTitle() == null || task.getTaskDescription() == null
-				|| task.getTaskStatus() == null || task.getTaskCreateDate() == null
-				|| task.getTaskUpdateDate() == null) {
+				|| task.getTaskStatus() == null || task.getTaskCreateDate() == null || task.getTaskUpdateDate() == null
+				|| task.getProjectId() == 0) {
 			throw new TaskCreateException("Cannot Create Task. Please Try Again.");
 		} else {
 			task.setProjectId(taskId);
